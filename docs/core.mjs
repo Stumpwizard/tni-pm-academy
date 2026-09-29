@@ -1,4 +1,4 @@
-import {COURSE_VERSION,modules,finalQuestions} from './course.mjs';
+import {COURSE_VERSION,modules,finalQuestions} from './course.mjs?v=20260929-2';
 export const PASS_MARK=80;
 export const IDLE_MS=120000;
 export const STORE_KEY='tni-pm-academy-v1';

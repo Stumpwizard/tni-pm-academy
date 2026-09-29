@@ -2,6 +2,10 @@
 
 Self-paced HTML training for new PMs and experienced PMs learning TNi's process. The course follows the process confirmed by Chris Taylor in September 2026, from PO acknowledgement to warranty support.
 
+## Fixed public URL
+
+**https://stumpwizard.github.io/tni-pm-academy/** is the permanent course URL, locked by the owner on September 29, 2026. Publish all future updates to this existing repository (`Stumpwizard/tni-pm-academy`), branch `main`, Pages folder `/docs`. Do not rename the repository, change the Pages address, or substitute another hosting destination unless the owner explicitly requests a URL change.
+
 ## Open / publish
 
 The complete static website is in `docs/`. No build step, external fonts, analytics, backend, or runtime package installation is required for the deployed site.

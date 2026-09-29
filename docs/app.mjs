@@ -1,5 +1,5 @@
-import {modules,finalQuestions,glossary,COURSE_VERSION} from './course.mjs';
-import {PASS_MARK,IDLE_MS,STORE_KEY,UNIT_IDS,newProfile,questionSet,attemptsFor,passed,completedCount,courseComplete,totalSeconds,retakeCount,makeDraft,finishAttempt,activeDelta,hours,duration,escapeHtml as e,validateProfile,toCsv,summaryRows,attemptRows} from './core.mjs';
+import {modules,finalQuestions,glossary,COURSE_VERSION} from './course.mjs?v=20260929-2';
+import {PASS_MARK,IDLE_MS,STORE_KEY,UNIT_IDS,newProfile,questionSet,attemptsFor,passed,completedCount,courseComplete,totalSeconds,retakeCount,makeDraft,finishAttempt,activeDelta,hours,duration,escapeHtml as e,validateProfile,toCsv,summaryRows,attemptRows} from './core.mjs?v=20260929-2';
 
 const $=s=>document.querySelector(s);
 let db={schema:1,profiles:[]},currentId=null,storageError='',storageBlocked=false,toastTimeout;
