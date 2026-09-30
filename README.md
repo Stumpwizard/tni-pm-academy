@@ -60,7 +60,7 @@ Totals preserve seconds internally and round only for display. Contact hours in 
 - `docs/styles.css`: responsive and print presentation.
 - `docs/index.html`: application shell.
 
-The equipment-specific technical testing checklist is explicitly a future process improvement, not an existing tool supplied by this course. Internal test/readiness responsibilities, OCR accounting, approval markups, customer PDF reports, invoice roles, shipment milestones and job-specific warranty treatment follow the confirmed TNi process. Scenario figures are fictional. Source cost workbooks and customer action lists have not been included in the public site.
+The equipment-specific technical testing checklist is explicitly a future process improvement, not an existing tool supplied by this course. Internal test/readiness responsibilities, OCR accounting, approval markups, customer PDF reports, daily onsite update emails to the TNi team, invoice roles, shipment milestones and job-specific warranty treatment follow the confirmed TNi process. During the customer-site equipment build, the PM develops the daily report throughout the day as updates occur, describing events and completion status, and sends it to the TNi team at the end of the day. Scenario figures are fictional. Source cost workbooks and customer action lists have not been included in the public site.
 
 Course version `1.1.0` expands every module from five to ten questions (120 module questions plus the unchanged 20-question final). All assessments require 100%. Existing question IDs and answer indices stay unchanged, the storage key stays `tni-pm-academy-v1`, and assessment policy version remains 2.
 
