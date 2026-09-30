@@ -13,7 +13,7 @@ const base=process.env.TEST_URL||'http://localhost:4173/';
 const read=()=>page.evaluate(key=>JSON.parse(localStorage.getItem(key)),STORE_KEY);
 const current=async()=>{const d=await read();return d.profiles.find(p=>p.name==='QA Learner');};
 async function route(hash){await page.goto(base+'#'+hash);await page.locator('#main h1').waitFor();}
-async function answerAndSubmit(id,n){const qs=id==='final'?finalQuestions:modules.find(m=>m.id===id).quiz;for(let i=0;i<qs.length;i++)await page.locator(`input[name="${qs[i].id}"][value="${i<n?0:1}"]`).check();await page.getByRole('button',{name:'Submit assessment'}).click();await page.locator('.score-panel').waitFor();}
+async function answerAndSubmit(id,n){const bank=id==='final'?finalQuestions:modules.find(m=>m.id===id).quiz;const ids=await page.locator('#quiz-form fieldset').evaluateAll(els=>els.map(el=>el.querySelector('input').name));const qs=ids.map(id=>bank.find(q=>q.id===id));for(let i=0;i<qs.length;i++)await page.locator(`input[name="${qs[i].id}"][value="${i<n?0:1}"]`).check();await page.getByRole('button',{name:'Submit assessment'}).click();await page.locator('.score-panel').waitFor();}
 try{
  await page.clock.install();
  await page.goto(base);await page.locator('.hero').waitFor();
@@ -44,8 +44,8 @@ try{
  assert.ok(await page.locator('.score-panel').getByRole('heading',{name:'Review needed',exact:true}).isVisible());
  await page.getByRole('link',{name:'Retake assessment',exact:true}).click();await page.getByRole('button',{name:'Start retake'}).click();await answerAndSubmit('handoff',10);assert.ok(await page.getByText('100%',{exact:true}).isVisible());
  for(const m of modules.slice(1)){await route('lesson/'+m.id);await page.getByRole('button',{name:'I’ve reviewed this lesson'}).click();await page.getByRole('button',{name:'Start assessment'}).click();await answerAndSubmit(m.id,10);}
- await route('quiz/final');await page.getByRole('button',{name:'Start assessment'}).click();await answerAndSubmit('final',19);assert.ok(await page.getByText('95%',{exact:true}).isVisible());
- await page.getByRole('link',{name:'Retake assessment',exact:true}).click();await page.getByRole('button',{name:'Start retake'}).click();await answerAndSubmit('final',20);assert.ok(await page.getByText('Course complete.',{exact:true}).isVisible());
+ await page.getByRole('link',{name:'Take final assessment',exact:true}).click();await page.getByRole('button',{name:'Start assessment'}).click();assert.equal(await page.locator('#quiz-form fieldset').count(),30);const selectedBefore=(await current()).drafts.final;await page.reload();await page.locator('#quiz-form').waitFor();const selectedAfter=(await current()).drafts.final;assert.deepEqual(selectedAfter.order,selectedBefore.order);assert.deepEqual(selectedAfter.options,selectedBefore.options);await answerAndSubmit('final',29);assert.ok(await page.getByText('97%',{exact:true}).isVisible());
+ await page.getByRole('link',{name:'Retake assessment',exact:true}).click();await page.getByRole('button',{name:'Start retake'}).click();await answerAndSubmit('final',30);assert.ok(await page.getByText('Course complete.',{exact:true}).isVisible());
  assert.equal((await current()).attempts.length,16);
  await route('record');assert.ok(await page.getByRole('heading',{name:'QA Learner',exact:true}).isVisible());
  const dl=page.waitForEvent('download');await page.getByRole('button',{name:'Download backup',exact:true}).click();const download=await dl;const backupPath='test-output/qa-backup.json';await download.saveAs(backupPath);const backup=JSON.parse(await readFile(backupPath,'utf8'));assert.equal(backup.profile.attempts.length,16);

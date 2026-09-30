@@ -1,6 +1,7 @@
 // TNi process confirmed by Chris Taylor, September 2026.
 // Examples are fictional; no customer records or source workbooks are published.
-export const COURSE_VERSION = '1.1.0';
+export const COURSE_VERSION = '1.2.0';
+export const FINAL_QUESTION_COUNT = 30;
 const q=(id,prompt,options,explanation)=>({id,prompt,options,correct:0,explanation});
 const section=(title,paragraphs,steps=[])=>({title,paragraphs,steps});
 export const modules = [
@@ -226,7 +227,7 @@ export const modules = [
  },
 ];
 
-export const finalQuestions = [
+export const legacyFinalQuestions = [
  q('f01','A PM receives a newly acknowledged PO. What is the appropriate starting point?',['Bring the delivery functions together to review quote, scope and cost detail','Wait until the machine is built','Immediately send the final invoice','Place every quoted long-lead item without design review'],'PM ownership starts after PO acknowledgement with the internal handoff and scope/cost review.'),
  q('f02','A schedule labels customer-site acceptance as the promised delivery date. What needs correction?',['The promised-delivery anchor is shipment from TNi','Nothing; the milestones are identical','The warranty must instead start at PO','Remove onsite work from the plan'],'Shipment is the delivery anchor; onsite acceptance remains a later, separately planned milestone.'),
  q('f03','A long-lead robot’s reach and payload are engineered, but the complete machine design is unfinished. What enables an exception?',['Design-manager authorization to the PM for early release','A price discount by the supplier','An order placed by the PM without review','A customer meeting calendar invitation'],'The engineered robot may qualify for an early-release exception authorized by the design manager.'),
@@ -248,6 +249,9 @@ export const finalQuestions = [
  q('f19','A job has longer workmanship coverage than OEM coverage. An ordinary component fails after OEM coverage. What applies?',['The longer workmanship period alone does not automatically cover it','Every component is automatically covered for the longest period','The PM course overrides the job’s PO terms','The warranty always starts at shipment'],'Coverage must be examined against the job terms and failure cause.'),
  q('f20','Examination indicates TNi workmanship directly caused a failure within the workmanship period. Who determines the response?',['TNi, with customer maintenance involvement in some examinations','The customer’s carrier','Any course participant','The supplier’s quotation system'],'TNi retains the determination; a direct workmanship cause may be covered during the applicable workmanship period.')
 ];
+
+// Every existing question is eligible for a new final; historical finals use their original bank.
+export const finalQuestions = [...modules.flatMap(m=>m.quiz),...legacyFinalQuestions];
 
 export const glossary=[
  ['PO','Purchase order. The customer’s order establishes job-specific commercial commitments.'],
