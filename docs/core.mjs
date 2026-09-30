@@ -1,10 +1,12 @@
-import {COURSE_VERSION,modules,finalQuestions} from './course.mjs?v=20260930-1';
-export const PASS_MARK=80;
+import {COURSE_VERSION,modules,finalQuestions} from './course.mjs?v=20260930-2';
+export const PASS_MARK=100;
+export const ASSESSMENT_POLICY_VERSION=2;
+const LEGACY_PASS_MARK=80;
 export const IDLE_MS=120000;
 export const STORE_KEY='tni-pm-academy-v1';
 export const UNIT_IDS=[...modules.map(m=>m.id),'final'];
 export function uid(){return crypto.randomUUID();}
-export function newProfile(name){return {id:uid(),name:name.trim().replace(/\s+/g,' '),courseVersion:COURSE_VERSION,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),lessons:{},time:{},attempts:[],drafts:{},lastUnit:modules[0].id};}
+export function newProfile(name){return {id:uid(),name:name.trim().replace(/\s+/g,' '),courseVersion:COURSE_VERSION,assessmentPolicyVersion:ASSESSMENT_POLICY_VERSION,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),lessons:{},time:{},attempts:[],drafts:{},lastUnit:modules[0].id};}
 export function questionSet(unit){return unit==='final'?finalQuestions:modules.find(m=>m.id===unit)?.quiz||[];}
 export function attemptsFor(p,unit){return p.attempts.filter(a=>a.unit===unit);}
 export function passed(p,unit){return attemptsFor(p,unit).some(a=>a.score>=PASS_MARK);}
@@ -15,7 +17,7 @@ export function retakeCount(p){return UNIT_IDS.reduce((sum,id)=>sum+Math.max(0,a
 export function shuffle(items){const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 export function makeDraft(unit){return {id:uid(),unit,startedAt:new Date().toISOString(),seconds:0,answers:{},order:shuffle(questionSet(unit).map(q=>q.id)),options:Object.fromEntries(questionSet(unit).map(q=>[q.id,shuffle(q.options.map((_,i)=>i))]))};}
 export function grade(unit,answers){const qs=questionSet(unit);if(!qs.length||qs.some(q=>!Number.isInteger(answers[q.id])||answers[q.id]<0||answers[q.id]>=q.options.length))throw new Error('Answer every question before submitting.');const correct=qs.filter(q=>answers[q.id]===q.correct).length;return {correct,total:qs.length,score:Math.round(correct/qs.length*100),passed:correct/qs.length*100>=PASS_MARK};}
-export function finishAttempt(p,unit){const d=p.drafts[unit];if(!d)throw new Error('This assessment has already been submitted.');const result=grade(unit,d.answers);const attemptNumber=attemptsFor(p,unit).length+1;const a={id:d.id,unit,courseVersion:COURSE_VERSION,startedAt:d.startedAt,submittedAt:new Date().toISOString(),activeSeconds:d.seconds,attemptNumber,retakeNumber:attemptNumber-1,...result,answers:{...d.answers},order:[...d.order]};p.attempts.push(a);delete p.drafts[unit];return a;}
+export function finishAttempt(p,unit){const d=p.drafts[unit];if(!d)throw new Error('This assessment has already been submitted.');if(unit==='final'&&completedCount(p)!==modules.length)throw new Error('Review and pass every module at 100% before submitting the final assessment.');const result=grade(unit,d.answers);const attemptNumber=attemptsFor(p,unit).length+1;const a={id:d.id,unit,courseVersion:COURSE_VERSION,passMark:PASS_MARK,startedAt:d.startedAt,submittedAt:new Date().toISOString(),activeSeconds:d.seconds,attemptNumber,retakeNumber:attemptNumber-1,...result,answers:{...d.answers},order:[...d.order]};p.attempts.push(a);delete p.drafts[unit];return a;}
 // Count only foreground, engaged study. Cap long suspension gaps to avoid sleep inflation.
 export function activeDelta({now,lastTick,lastActivity,eligible}){if(!eligible||now<lastTick)return 0;return Math.max(0,Math.min(now,lastActivity+IDLE_MS)-Math.max(lastTick,now-5000))/1000;}
 export function hours(seconds){return (seconds/3600).toFixed(2);}
@@ -26,17 +28,23 @@ const timestamp=x=>typeof x==='string'&&Number.isFinite(Date.parse(x));
 export function validateProfile(p){
  if(!p||typeof p.id!=='string'||!p.id||typeof p.name!=='string'||!p.name.trim()||p.name.length>100||p.courseVersion!==COURSE_VERSION||!timestamp(p.createdAt)||!timestamp(p.updatedAt))throw new Error('This is not a valid record for this course version.');
  if(!p.lessons||!p.time||!p.drafts||!Array.isArray(p.attempts)||p.attempts.length>10000)throw new Error('The training record is incomplete.');
+ const legacy=p.assessmentPolicyVersion===undefined;
+ if(!legacy&&p.assessmentPolicyVersion!==ASSESSMENT_POLICY_VERSION)throw new Error('Unsupported assessment policy version.');
  for(const [id,date] of Object.entries(p.lessons))if(!modules.some(m=>m.id===id)||!timestamp(date))throw new Error('Invalid lesson completion record.');
  for(const [id,t] of Object.entries(p.time))if(!UNIT_IDS.includes(id)||!t||!finite(t.lesson)||!finite(t.assessment))throw new Error('Invalid contact-hour record.');
  const seen=new Set();
- for(const a of p.attempts){if(!UNIT_IDS.includes(a.unit)||typeof a.id!=='string'||seen.has(a.id)||!timestamp(a.startedAt)||!timestamp(a.submittedAt)||!finite(a.activeSeconds)||a.courseVersion!==COURSE_VERSION)throw new Error('Invalid assessment record.');seen.add(a.id);const qs=questionSet(a.unit);if(!Array.isArray(a.order)||a.order.length!==qs.length||new Set(a.order).size!==qs.length||a.order.some(id=>!qs.some(q=>q.id===id)))throw new Error('Invalid assessment question order.');const g=grade(a.unit,a.answers);if(g.score!==a.score||g.correct!==a.correct||g.total!==a.total||g.passed!==a.passed)throw new Error('Assessment score does not match the recorded answers.');}
+ for(const a of p.attempts){if(!UNIT_IDS.includes(a.unit)||typeof a.id!=='string'||seen.has(a.id)||!timestamp(a.startedAt)||!timestamp(a.submittedAt)||!finite(a.activeSeconds)||a.courseVersion!==COURSE_VERSION||(!legacy&&![LEGACY_PASS_MARK,PASS_MARK].includes(a.passMark)))throw new Error('Invalid assessment record.');seen.add(a.id);const qs=questionSet(a.unit);if(!Array.isArray(a.order)||a.order.length!==qs.length||new Set(a.order).size!==qs.length||a.order.some(id=>!qs.some(q=>q.id===id)))throw new Error('Invalid assessment question order.');const g=grade(a.unit,a.answers);const expectedPassed=legacy?g.score>=LEGACY_PASS_MARK:g.passed;if(g.score!==a.score||g.correct!==a.correct||g.total!==a.total||expectedPassed!==a.passed)throw new Error('Assessment score does not match the recorded answers.');}
  for(const id of UNIT_IDS){attemptsFor(p,id).forEach((a,i)=>{if(a.attemptNumber!==i+1||a.retakeNumber!==i)throw new Error('Invalid attempt sequence.');});}
  for(const [id,d] of Object.entries(p.drafts)){
   const qs=questionSet(id);if(!UNIT_IDS.includes(id)||!d||d.unit!==id||typeof d.id!=='string'||seen.has(d.id)||!timestamp(d.startedAt)||!finite(d.seconds)||!Array.isArray(d.order)||d.order.length!==qs.length||new Set(d.order).size!==qs.length||d.order.some(qid=>!qs.some(q=>q.id===qid))||!d.answers||!d.options)throw new Error('Invalid saved assessment.');
   for(const q of qs){const o=d.options[q.id];if(!Array.isArray(o)||o.length!==q.options.length||new Set(o).size!==o.length||o.some(i=>!Number.isInteger(i)||i<0||i>=q.options.length))throw new Error('Invalid assessment options.');}
   for(const [qid,v] of Object.entries(d.answers)){const q=qs.find(q=>q.id===qid);if(!q||!Number.isInteger(v)||v<0||v>=q.options.length)throw new Error('Invalid saved answer.');}
  }
- if(p.attempts.some(a=>a.unit==='final')&&completedCount(p)!==modules.length)throw new Error('Final assessment requires all module checks.');
+ // Historical finals remain valid records of work completed under their original entry requirement.
+ // Current completion, final access, and every displayed/exported result use PASS_MARK.
+ for(const a of p.attempts.filter(a=>a.unit==='final')){const required=legacy?LEGACY_PASS_MARK:a.passMark;if(!modules.every(m=>p.lessons[m.id]&&attemptsFor(p,m.id).some(x=>x.score>=required)))throw new Error('Final assessment requires all module checks.');}
+ // Migrate only after the entire record validates, retaining answers, scores, drafts, dates and time.
+ if(legacy){for(const a of p.attempts){a.passMark=LEGACY_PASS_MARK;a.passed=a.score>=PASS_MARK;}p.assessmentPolicyVersion=ASSESSMENT_POLICY_VERSION;}
  return p;
 }
 export function csvCell(v){let s=String(v??'');if(/^[\s]*[=+@\-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}
