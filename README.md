@@ -29,6 +29,7 @@ Open `http://localhost:4173`. Serve the files over HTTP(S); ES modules do not re
 - 100% passing score: 10/10 for module checks, 20/20 for the final.
 - Untimed assessments and unlimited retakes. All submitted attempts remain in history. Each assessment's first attempt is excluded from its retake count.
 - Lessons must be marked reviewed before their checks; all 12 modules must be reviewed/passed to unlock the final. A later lower score does not erase an earlier pass.
+- After all 12 modules are passed, a prominent “Take final assessment” button appears on module results and the training record, and the overview’s main button uses that label. This works regardless of module completion order; unfinished modules remain the next step until all are passed.
 - Question and option ordering shuffled for each new attempt. Unfinished answers persist on the same browser.
 - Learner profiles by PM name, module completion, per-attempt scores and answers, contact hours, and retake counts.
 - Summary CSV, attempt-level CSV, JSON backup/restore and printable training records.
