@@ -33,6 +33,7 @@ Open `http://localhost:4173`. Serve the files over HTTP(S); ES modules do not re
 - Thirty unique questions selected for each new final attempt; question and option ordering shuffled for every assessment. Unfinished answers persist on the same browser.
 - Learner profiles by PM name, module completion, per-attempt scores and answers, contact hours, and retake counts.
 - Summary CSV, attempt-level CSV, JSON backup/restore and printable training records.
+- After course completion, a printable certificate shows the TNi logo, learner name and date of the first passing current final. Print/save-as-PDF is available from final results, the overview and the training record. Reprints retain that completion date, formatted in TNi’s America/Detroit timezone. The certificate has its own landscape print layout and does not print the course navigation or training record.
 - Mobile layouts, keyboard controls, visible focus, labeled inputs, reduced-motion support and print styling.
 
 ## Device-only record storage
@@ -59,6 +60,7 @@ Totals preserve seconds internally and round only for display. Contact hours in 
 - `docs/core.mjs`: grading, record validation, contact-time rules and exports.
 - `docs/app.mjs`: interface, persistence, navigation and downloads.
 - `docs/styles.css`: responsive and print presentation.
+- `docs/certificate.css`: certificate preview and isolated landscape print layout.
 - `docs/index.html`: application shell.
 
 The PM creates and maintains the project plan in Microsoft Project and exports the customer schedule as a PDF. The customer open-items PDF is exported from the working Excel list and includes both TNi and customer open items; TNi ownership is not a reason to hide an open item. The equipment-specific technical testing checklist is explicitly a future process improvement, not an existing tool supplied by this course. Internal test/readiness responsibilities, OCR accounting, approval markups, customer PDF reports, daily onsite update emails to the TNi team, invoice roles, shipment milestones and job-specific warranty treatment follow the confirmed TNi process. During the customer-site equipment build, the PM develops the daily report throughout the day as updates occur, describing events and completion status, and sends it to the TNi team at the end of the day. Module 05 explains SAGE cost codes and cost types, period-to-date versus job-to-date costs and hours, the reporting cutoff, and why zero estimate fields do not establish a budget overrun. It compares actuals with the cost-detail budget and considers open commitments separately when needed. Scenario figures are fictional. Source cost workbooks and customer action lists have not been included in the public site.

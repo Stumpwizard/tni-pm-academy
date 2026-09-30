@@ -1,0 +1,38 @@
+.certificate-tools{margin-bottom:30px}
+.certificate-tools h1{font-size:2rem;margin-bottom:14px}
+.certificate-tools p{max-width:720px;color:var(--muted);font-size:.88rem}
+.certificate-sheet{box-sizing:border-box;max-width:100%;margin:0 auto;background:#fff;color:#172017;border:7px double #28622d;padding:36px 42px 32px;text-align:center;box-shadow:0 8px 24px #0000000a;page:tni-certificate}
+.certificate-logo{display:block;width:225px;max-width:65%;height:auto;margin:0 auto 18px}
+.certificate-academy{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:0 0 14px}
+.certificate-sheet h2{font-family:Georgia,'Times New Roman',serif;font-size:39px;font-weight:400;letter-spacing:-1px;line-height:1.15;color:#172017;margin:0 0 22px}
+.certificate-intro{font-size:15px;margin:0 0 12px}
+.certificate-name{font-family:Georgia,'Times New Roman',serif;font-size:34px;font-weight:700;line-height:1.2;overflow-wrap:anywhere;margin:0 auto 18px;max-width:100%}
+.certificate-name-long{font-size:26px}
+.certificate-award{font-size:17px;line-height:1.65;margin:0 0 14px}
+.certificate-award strong{font-size:20px}
+.certificate-requirements{font-size:13px;line-height:1.65;margin:0 0 24px;color:#40513d}
+.certificate-date{display:block;border-top:1px solid #b9c8b5;max-width:290px;margin:0 auto;padding-top:14px}
+.certificate-date span{display:block;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:6px}
+.certificate-date strong{display:block;font-size:17px}
+@media(max-width:560px){.certificate-sheet{padding:28px 17px}.certificate-logo{width:190px;max-width:85%}.certificate-sheet h2{font-size:30px}.certificate-name{font-size:28px}.certificate-award{font-size:15px}.certificate-award strong{font-size:17px}.certificate-academy{font-size:10px;letter-spacing:1px}.certificate-tools h1{font-size:1.75rem}}
+@page tni-certificate{size:letter landscape;margin:.4in}
+@media print{
+ body.certificate-view{background:white;color:#172017}
+ .certificate-view> :not(.layout){display:none!important}
+ .certificate-view [hidden]{display:none!important}
+ .certificate-view .topbar,.certificate-view .sidebar,.certificate-view .footer,.certificate-view .breadcrumb,.certificate-view .certificate-tools,.certificate-view #toast,.certificate-view dialog{display:none!important}
+ .certificate-view .layout{display:block;min-height:0}
+ .certificate-view #main,.certificate-view .content{margin:0;padding:0;max-width:none;background:white}
+ .certificate-view .certificate-sheet{width:100%;max-width:none;min-height:7.5in;margin:0;box-shadow:none;padding:.36in .55in .3in;border:7px double #28622d;break-inside:avoid;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+ .certificate-view .certificate-logo{width:2.4in;max-width:none;height:auto;margin-bottom:.16in}
+ .certificate-view .certificate-academy{font-size:10pt;margin-bottom:.14in}
+ .certificate-view .certificate-sheet h2{font-size:32pt;margin-bottom:.19in}
+ .certificate-view .certificate-intro{font-size:11pt;margin-bottom:.12in}
+ .certificate-view .certificate-name{font-size:27pt;max-width:8.6in;margin-bottom:.16in}
+ .certificate-view .certificate-name-long{font-size:16pt}
+ .certificate-view .certificate-award{font-size:12pt;margin-bottom:.12in}
+ .certificate-view .certificate-award strong{font-size:15pt}
+ .certificate-view .certificate-requirements{font-size:10pt;margin-bottom:.2in}
+ .certificate-view .certificate-date{padding-top:.12in}
+ .certificate-view .certificate-date strong{font-size:13pt}
+}

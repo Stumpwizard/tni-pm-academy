@@ -1,4 +1,4 @@
-import {COURSE_VERSION,FINAL_QUESTION_COUNT,modules,finalQuestions,legacyFinalQuestions} from './course.mjs?v=20260930-9';
+import {COURSE_VERSION,FINAL_QUESTION_COUNT,modules,finalQuestions,legacyFinalQuestions} from './course.mjs?v=20260930-10';
 export const PASS_MARK=100;
 export const ASSESSMENT_POLICY_VERSION=2;
 const LEGACY_PASS_MARK=80;
@@ -27,6 +27,7 @@ export function attemptStatus(a){return !isCurrentAttempt(a)?`Earlier ${a.total}
 export function passed(p,unit){return attemptsFor(p,unit).some(a=>isCurrentAttempt(a)&&a.score>=PASS_MARK);}
 export function completedCount(p){return modules.filter(m=>!!p.lessons[m.id]&&passed(p,m.id)).length;}
 export function courseComplete(p){return completedCount(p)===modules.length&&passed(p,'final');}
+export function courseCompletionDate(p){if(!p||!courseComplete(p))return null;return attemptsFor(p,'final').filter(a=>isCurrentAttempt(a)&&a.score>=PASS_MARK).reduce((first,a)=>!first||Date.parse(a.submittedAt)<Date.parse(first)?a.submittedAt:first,null);}
 export function totalSeconds(p){return Object.values(p.time).reduce((sum,t)=>sum+t.lesson+t.assessment,0);}
 export function retakeCount(p){return UNIT_IDS.reduce((sum,id)=>sum+Math.max(0,attemptsFor(p,id).length-1),0);}
 export function shuffle(items){const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}

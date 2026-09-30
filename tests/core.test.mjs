@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {modules,finalQuestions,legacyFinalQuestions,FINAL_QUESTION_COUNT,COURSE_VERSION} from '../docs/course.mjs';
-import {newProfile,grade,makeDraft,finishAttempt,passed,retakeCount,activeDelta,IDLE_MS,validateProfile,summaryRows,toCsv,completedCount,courseComplete,attemptRows,PASS_MARK,ASSESSMENT_POLICY_VERSION,LEGACY_COURSE_VERSION,PREVIOUS_COURSE_VERSION,questionSet,questionCount,assessmentQuestions,bestScore,attemptStatus} from '../docs/core.mjs';
+import {newProfile,grade,makeDraft,finishAttempt,passed,retakeCount,activeDelta,IDLE_MS,validateProfile,summaryRows,toCsv,completedCount,courseComplete,courseCompletionDate,attemptRows,PASS_MARK,ASSESSMENT_POLICY_VERSION,LEGACY_COURSE_VERSION,PREVIOUS_COURSE_VERSION,questionSet,questionCount,assessmentQuestions,bestScore,attemptStatus} from '../docs/core.mjs';
 const answers=(unit,n=questionCount(unit),version=COURSE_VERSION,order)=>Object.fromEntries((order?assessmentQuestions(unit,version,order):questionSet(unit,version)).map((q,i)=>[q.id,i<n?q.correct:(q.correct+1)%q.options.length]));
 function submit(p,unit,n=questionCount(unit)){p.drafts[unit]=makeDraft(unit);p.drafts[unit].answers=answers(unit,n,COURSE_VERSION,p.drafts[unit].order);return finishAttempt(p,unit);}
 function completeModules(p){for(const m of modules){p.lessons[m.id]=new Date().toISOString();submit(p,m.id);}}
@@ -113,4 +113,17 @@ test('Version 1.1 module passes survive while old finals and unfinished final dr
  const before=structuredClone(p);validateProfile(p);assert.equal(completedCount(p),12);assert.equal(passed(p,'final'),false);assert.equal(courseComplete(p),false);assert.equal(bestScore(p,'final'),null);assert.equal(attemptStatus(p.attempts.at(-1)),'Earlier 20-question assessment');assert.deepEqual(p.attempts,before.attempts);assert.deepEqual(p.time,before.time);assert.deepEqual(p.archivedDrafts,[before.drafts.final]);assert.equal(p.drafts.final,undefined);
  assert.deepEqual(validateProfile(JSON.parse(JSON.stringify(p))),p);const snapshot=structuredClone(p);validateProfile(p);assert.deepEqual(p,snapshot);
  const a=submit(p,'final');assert.equal(a.attemptNumber,2);assert.equal(a.retakeNumber,1);assert.equal(a.total,30);assert.equal(courseComplete(p),true);assert.equal(validateProfile(p),p);assert.equal(attemptRows(p).at(-1)[10],30);
+});
+
+
+test('Certificate eligibility requires course completion and keeps the first passing final date',()=>{
+ const p=newProfile('Certificate PM');assert.equal(courseCompletionDate(null),null);assert.equal(courseCompletionDate(p),null);
+ completeModules(p);assert.equal(courseCompletionDate(p),null);
+ const failed=submit(p,'final',29);failed.submittedAt='2026-09-29T16:00:00Z';assert.equal(courseCompletionDate(p),null);
+ const first=submit(p,'final');first.submittedAt='2026-09-30T23:00:00Z';assert.equal(courseCompletionDate(p),first.submittedAt);
+ const later=submit(p,'final');later.submittedAt='2026-10-02T10:00:00Z';assert.equal(courseCompletionDate(p),first.submittedAt);
+ submit(p,'final',28);assert.equal(courseCompletionDate(p),first.submittedAt);
+ assert.equal(courseCompletionDate(validateProfile(JSON.parse(JSON.stringify(p)))),first.submittedAt);
+ delete p.lessons.handoff;assert.equal(courseCompletionDate(p),null);
+ const old=validateProfile(legacyProfile({policy:100,perfect:true}));completeModules(old);assert.equal(courseCompletionDate(old),null);
 });
