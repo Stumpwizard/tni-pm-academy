@@ -25,8 +25,8 @@ Open `http://localhost:4173`. Serve the files over HTTP(S); ES modules do not re
 ## Included
 
 - 12 complete lessons with objectives, PM foundations, TNi procedures, practical scenarios and model responses.
-- Five questions per module (60 total), plus a 20-question final assessment.
-- 100% passing score: 5/5 for module checks, 20/20 for the final.
+- Ten questions per module (120 total), plus a 20-question final assessment.
+- 100% passing score: 10/10 for module checks, 20/20 for the final.
 - Untimed assessments and unlimited retakes. All submitted attempts remain in history. Each assessment's first attempt is excluded from its retake count.
 - Lessons must be marked reviewed before their checks; all 12 modules must be reviewed/passed to unlock the final. A later lower score does not erase an earlier pass.
 - Question and option ordering shuffled for each new attempt. Unfinished answers persist on the same browser.
@@ -62,7 +62,11 @@ Totals preserve seconds internally and round only for display. Contact hours in 
 
 The equipment-specific technical testing checklist is explicitly a future process improvement, not an existing tool supplied by this course. Internal test/readiness responsibilities, OCR accounting, approval markups, customer PDF reports, invoice roles, shipment milestones and job-specific warranty treatment follow the confirmed TNi process. Scenario figures are fictional. Source cost workbooks and customer action lists have not been included in the public site.
 
-The September 30, 2026 grading change requires 100% on every assessment. Course content version `1.0.0`, question IDs, answer indices, and the storage key stay compatible; profiles use `assessmentPolicyVersion: 2`. On load or backup restore, legacy records are first validated under the prior 80% rule, then all pass flags are recalculated at 100%. Scores, answers, dates, attempts, lesson reviews, drafts, and study time remain intact. Attempts retain their original submission threshold in `passMark` so historical final attempts can remain valid records even when their module scores now require retakes. New final submissions and course completion require every module at 100%; existing final drafts remain saved but locked until those prerequisites are met. Reports consistently show current 100% results. The storage merge also validates/migrates other learner profiles before saving.
+Course version `1.1.0` expands every module from five to ten questions (120 module questions plus the unchanged 20-question final). All assessments require 100%. Existing question IDs and answer indices stay unchanged, the storage key stays `tni-pm-academy-v1`, and assessment policy version remains 2.
+
+Migration plan: accept both `1.0.0` and `1.1.0` profiles and attempts. Validate old module attempts against their original five questions, preserving their scores, answers, dates, attempt numbers and historical course version. Only current ten-question module attempts count toward module completion; the unchanged final can retain a previous 20/20 pass once current module prerequisites are met. Old module attempts are labeled as earlier assessments in results, history and CSV exports. Best current scores exclude those old module attempts.
+
+Saved drafts gain a course version and the five added questions, preserving existing answers, shuffled option order, start time and accrued study time. Existing final drafts remain saved and are gated by the current module prerequisites. Profile course versions advance only after the complete input record validates. Lesson reviews and all contact time remain intact. Old records from the original 80% policy first validate under that rule, then their result flags are recalculated at 100%. Each attempt retains its original `passMark` so earlier finals remain valid historical records. New final submissions require all twelve current module checks at 100%. The storage merge also validates/migrates other learner profiles before saving.
 
 When materially changing the curriculum or grading, define a record migration/versioning plan before changing `COURSE_VERSION`. Existing records should not silently count against different questions.
 

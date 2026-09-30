@@ -38,12 +38,12 @@ try{
  await page.getByRole('button',{name:'Submit assessment'}).click();assert.ok(await page.getByText('Answer every question before submitting.').isVisible());
  assert.equal((await current()).attempts.length,0);
  await page.locator('input[name="h1"][value="0"]').check();await page.reload();await page.locator('#quiz-form').waitFor();assert.ok(await page.locator('input[name="h1"][value="0"]').isChecked());
- await answerAndSubmit('handoff',3);assert.ok(await page.getByText('60%',{exact:true}).isVisible());
- await page.getByRole('link',{name:'Retake assessment',exact:true}).click();await page.getByRole('button',{name:'Start retake'}).click();await answerAndSubmit('handoff',4);assert.ok(await page.getByText('80%',{exact:true}).isVisible());
+ await answerAndSubmit('handoff',6);assert.ok(await page.getByText('60%',{exact:true}).isVisible());
+ await page.getByRole('link',{name:'Retake assessment',exact:true}).click();await page.getByRole('button',{name:'Start retake'}).click();await answerAndSubmit('handoff',9);assert.ok(await page.getByText('90%',{exact:true}).isVisible());
  assert.equal((await current()).attempts[1].retakeNumber,1);
  assert.ok(await page.locator('.score-panel').getByRole('heading',{name:'Review needed',exact:true}).isVisible());
- await page.getByRole('link',{name:'Retake assessment',exact:true}).click();await page.getByRole('button',{name:'Start retake'}).click();await answerAndSubmit('handoff',5);assert.ok(await page.getByText('100%',{exact:true}).isVisible());
- for(const m of modules.slice(1)){await route('lesson/'+m.id);await page.getByRole('button',{name:'I’ve reviewed this lesson'}).click();await page.getByRole('button',{name:'Start assessment'}).click();await answerAndSubmit(m.id,5);}
+ await page.getByRole('link',{name:'Retake assessment',exact:true}).click();await page.getByRole('button',{name:'Start retake'}).click();await answerAndSubmit('handoff',10);assert.ok(await page.getByText('100%',{exact:true}).isVisible());
+ for(const m of modules.slice(1)){await route('lesson/'+m.id);await page.getByRole('button',{name:'I’ve reviewed this lesson'}).click();await page.getByRole('button',{name:'Start assessment'}).click();await answerAndSubmit(m.id,10);}
  await route('quiz/final');await page.getByRole('button',{name:'Start assessment'}).click();await answerAndSubmit('final',19);assert.ok(await page.getByText('95%',{exact:true}).isVisible());
  await page.getByRole('link',{name:'Retake assessment',exact:true}).click();await page.getByRole('button',{name:'Start retake'}).click();await answerAndSubmit('final',20);assert.ok(await page.getByText('Course complete.',{exact:true}).isVisible());
  assert.equal((await current()).attempts.length,16);
