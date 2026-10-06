@@ -1,4 +1,4 @@
-import {COURSE_VERSION,FINAL_QUESTION_COUNT,modules,finalQuestions,legacyFinalQuestions} from './course.mjs?v=20260930-10';
+import {COURSE_VERSION,FINAL_QUESTION_COUNT,modules,finalQuestions,legacyFinalQuestions} from './course.mjs?v=20261006-01';
 export const PASS_MARK=100;
 export const ASSESSMENT_POLICY_VERSION=2;
 const LEGACY_PASS_MARK=80;
