@@ -59,5 +59,11 @@ let pendingImport=null;
 $('#restore-file').addEventListener('change',async ev=>{const file=ev.target.files[0];ev.target.value='';if(!file)return;try{if(file.size>10000000)throw Error('The backup is too large.');const data=JSON.parse(await file.text());if(data.schema!==1)throw Error('Unsupported backup format.');const p=validateProfile(data.profile);pendingImport=p;$('#profile-dialog').close();const exists=db.profiles.find(x=>x.id===p.id);$('#import-dialog').innerHTML=`<button class="close-dialog" data-close="import-dialog" aria-label="Cancel restore">×</button><h2 id="import-title">Restore ${e(p.name)}?</h2><p>${p.attempts.length} submitted attempts · ${completedCount(p)} modules passed · ${duration(totalSeconds(p))} active study.</p><p>${exists?'This replaces this learner’s saved record on this device. Export the current record first if it contains newer work.':'This adds the learner record to this browser.'}</p><div class="action-row"><button class="btn" data-action="confirm-import">Restore this record</button><button class="btn-secondary" data-close="import-dialog">Cancel</button></div>`;$('#import-dialog').showModal();}catch(err){pendingImport=null;toast('Backup not restored: '+err.message);}});
 function confirmImport(){if(!pendingImport)return;tick();save();release();const p=pendingImport;db.profiles=db.profiles.filter(x=>x.id!==p.id);db.profiles.push(p);currentId=p.id;pendingImport=null;if(!claim()){toast('Close the other tab using this learner before restoring.');$('#import-dialog').close();return;}save();$('#import-dialog').close();location.hash='record';render();toast('Training record restored.');}
 setInterval(tick,1000);
-claim();render();
-
+// Opening or restoring training starts on overview; saved progress stays intact.
+function openOverview(){
+  history.replaceState(history.state,'',location.pathname+location.search+'#home');
+  render();
+  window.scrollTo(0,0);
+}
+window.addEventListener('pageshow',event=>{if(event.persisted)openOverview();});
+claim();openOverview();
