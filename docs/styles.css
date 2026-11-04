@@ -10,3 +10,5 @@
 .hero.hero-simple{display:block;min-height:0}.hero-simple .hero-copy{padding:clamp(28px,4vw,48px)}.hero-simple h1{max-width:100%;margin-bottom:26px;font-size:clamp(2rem,4vw,3.5rem)}
 
 .hero-simple h1{text-align:center}
+
+.hero-simple .hero-copy{text-align:center}.hero-simple .btn{padding:8px 16px;min-height:40px;font-size:.8rem;gap:8px}
