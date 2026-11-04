@@ -86,6 +86,5 @@ Core tests cover complete curriculum counts, the 100% boundary, final grading, r
 
 ## Editable runoff checklist
 
-The course overview and PM field guide link to `docs/downloads/TNi-Equipment-Runoff-Checklist.docx`. Keep this stable path for future revisions. Maintain the editable Word document, retain its draft/revision identification, and replace the file at this path when a revised checklist is requested. Update related lesson and quiz wording as needed while preserving learner records.
+The Finish & Reference sidebar download links to `docs/downloads/TNi-Equipment-Runoff-Checklist.docx`. Keep this stable path for future revisions. Maintain the editable Word document, retain its draft/revision identification, and replace the file at this path when a revised checklist is requested. Update related lesson and quiz wording as needed while preserving learner records.
 
-The PM field guide displays the full checklist in expandable sections from `docs/runoff-checklist.mjs`. Regenerate this reference content from the Word source whenever the checklist changes, preserving document order and all test IDs.
