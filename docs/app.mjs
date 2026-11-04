@@ -1,5 +1,5 @@
-import {modules,finalQuestions,glossary,COURSE_VERSION,FINAL_QUESTION_COUNT} from './course.mjs?v=20261006-01';
-import {PASS_MARK,IDLE_MS,STORE_KEY,UNIT_IDS,newProfile,questionSet,questionCount,assessmentQuestions,attemptsFor,isCurrentAttempt,bestScore,attemptStatus,passed,completedCount,courseComplete,courseCompletionDate,totalSeconds,retakeCount,makeDraft,finishAttempt,activeDelta,hours,duration,escapeHtml as e,validateProfile,toCsv,summaryRows,attemptRows} from './core.mjs?v=20261006-01';
+import {modules,finalQuestions,glossary,COURSE_VERSION,FINAL_QUESTION_COUNT} from './course.mjs?v=20261104-01';
+import {PASS_MARK,IDLE_MS,STORE_KEY,UNIT_IDS,newProfile,questionSet,questionCount,assessmentQuestions,attemptsFor,isCurrentAttempt,bestScore,attemptStatus,passed,completedCount,courseComplete,courseCompletionDate,totalSeconds,retakeCount,makeDraft,finishAttempt,activeDelta,hours,duration,escapeHtml as e,validateProfile,toCsv,summaryRows,attemptRows} from './core.mjs?v=20261104-01';
 
 const $=s=>document.querySelector(s);
 let db={schema:1,profiles:[]},currentId=null,storageError='',storageBlocked=false,toastTimeout;
@@ -59,3 +59,4 @@ $('#restore-file').addEventListener('change',async ev=>{const file=ev.target.fil
 function confirmImport(){if(!pendingImport)return;tick();save();release();const p=pendingImport;db.profiles=db.profiles.filter(x=>x.id!==p.id);db.profiles.push(p);currentId=p.id;pendingImport=null;if(!claim()){toast('Close the other tab using this learner before restoring.');$('#import-dialog').close();return;}save();$('#import-dialog').close();location.hash='record';render();toast('Training record restored.');}
 setInterval(tick,1000);
 claim();render();
+

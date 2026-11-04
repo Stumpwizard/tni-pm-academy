@@ -1,4 +1,4 @@
-import {COURSE_VERSION,FINAL_QUESTION_COUNT,modules,finalQuestions,legacyFinalQuestions} from './course.mjs?v=20261006-01';
+import {COURSE_VERSION,FINAL_QUESTION_COUNT,modules,finalQuestions,legacyFinalQuestions} from './course.mjs?v=20261104-01';
 export const PASS_MARK=100;
 export const ASSESSMENT_POLICY_VERSION=2;
 const LEGACY_PASS_MARK=80;
@@ -92,3 +92,4 @@ export function csvCell(v){let s=String(v??'');if(/^[\s]*[=+@\-]/.test(s))s="'"+
 export function toCsv(rows){return '\uFEFF'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');}
 export function summaryRows(p){const rows=[['PM name','Learner ID','Course version','Module','Lesson reviewed at','Status','Best score percent','Submitted attempts','Retake count','Lesson active seconds','Assessment active seconds','Contact hours']];for(const id of UNIT_IDS){const a=attemptsFor(p,id),t=p.time[id]||{lesson:0,assessment:0};rows.push([p.name,p.id,p.courseVersion,id==='final'?'Final assessment':modules.find(m=>m.id===id).title,p.lessons[id]||'',passed(p,id)?'Passed':a.length?'Review needed':p.drafts[id]?'In progress':'Not completed',bestScore(p,id)??'',a.length,Math.max(0,a.length-1),Number(t.lesson.toFixed(3)),Number(t.assessment.toFixed(3)),((t.lesson+t.assessment)/3600).toFixed(4)]);}return rows;}
 export function attemptRows(p){return [['PM name','Learner ID','Course version','Assessment','Attempt ID','Attempt number','Retake number','Started at UTC','Submitted at UTC','Correct','Question count','Score percent','Result','Active seconds'],...p.attempts.map(a=>[p.name,p.id,a.courseVersion,a.unit,a.id,a.attemptNumber,a.retakeNumber,a.startedAt,a.submittedAt,a.correct,a.total,a.score,attemptStatus(a),Number(a.activeSeconds.toFixed(3))])];}
+
