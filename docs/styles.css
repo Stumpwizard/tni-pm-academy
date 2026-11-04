@@ -8,3 +8,5 @@
 @media print{.topbar,.sidebar,.footer,.action-row,.notice,.breadcrumb,.time-pill,.quiz-intro,.no-print{display:none!important}.layout{display:block}.content{padding:0;max-width:none}.metric-grid{grid-template-columns:repeat(4,1fr)}.record-panel{border:0;padding:10px 0;break-inside:avoid}.print-only{display:block}body{background:white}table{min-width:0}th,td{padding:7px}.table-wrap{overflow:visible}}
 
 .hero.hero-simple{display:block;min-height:0}.hero-simple .hero-copy{padding:clamp(28px,4vw,48px)}.hero-simple h1{max-width:100%;margin-bottom:26px;font-size:clamp(2rem,4vw,3.5rem)}
+
+.hero-simple h1{text-align:center}
