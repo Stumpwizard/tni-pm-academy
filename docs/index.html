@@ -11,7 +11,9 @@
  <link rel="stylesheet" href="./styles.css?v=20261104-08">
  <link rel="stylesheet" href="./theme.css?v=20261105-04">
  <link rel="stylesheet" href="./certificate.css?v=20261104-05">
- <script type="module" src="./app.mjs?v=20261105-05"></script>
+ <script type="module" src="./app.mjs?v=20261105-06"></script>
+ <link rel="stylesheet" href="./search.css?v=20261105-06">
+ <script type="module" src="./search.mjs?v=20261105-06"></script>
 </head>
 <body>
  <a class="skip" href="#main">Skip to content</a>
@@ -20,6 +22,7 @@
   <div class="top-actions"><div class="theme-control"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Theme settings" aria-expanded="false" aria-controls="theme-panel" title="Theme settings"><span aria-hidden="true">⚙</span></button><div id="theme-panel" class="theme-panel" hidden><fieldset><legend>Appearance</legend><label><input type="radio" name="theme" value="system"> System</label><label><input type="radio" name="theme" value="light"> Light</label><label><input type="radio" name="theme" value="dark"> Dark</label></fieldset></div></div><span class="course-label">SELF-PACED LEARNING</span><button id="learner-button" class="learner-button">Choose learner</button><button id="menu-button" class="menu-button" aria-expanded="false" aria-controls="sidebar">Menu</button></div>
  </header>
  <script type="module" src="./theme.mjs?v=20261105-04"></script>
+ <div id="academy-search-area" class="academy-search-area"><form id="search-form" class="search-form" role="search"><label for="academy-search">Search Academy</label><input id="academy-search" type="search" placeholder="Search lessons, OCR, runoff, references…" autocomplete="off" maxlength="160" aria-controls="search-results" aria-describedby="search-status"><button id="search-clear" type="button" hidden>Clear</button></form><p id="search-status" class="search-status" role="status" aria-live="polite"></p><div id="search-results" class="search-results" hidden></div></div>
  <div class="layout">
   <aside id="sidebar" class="sidebar" aria-label="Course navigation"></aside>
   <main id="main" tabindex="-1"></main>
