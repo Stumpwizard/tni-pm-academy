@@ -9,6 +9,7 @@
  <title>TNi | Project Management Academy</title>
  <link rel="icon" href="./assets/tni-logo.png" type="image/png">
  <link rel="stylesheet" href="./styles.css?v=20261104-08">
+ <link rel="stylesheet" href="./theme.css?v=20261105-01">
  <link rel="stylesheet" href="./certificate.css?v=20261104-05">
  <script type="module" src="./app.mjs?v=20261105-02"></script>
 </head>
@@ -16,8 +17,9 @@
  <a class="skip" href="#main">Skip to content</a>
  <header class="topbar">
   <a class="brand" href="#home" aria-label="TNi Project Management Academy home"><img class="brand-logo" src="./assets/tni-logo.png" width="1536" height="506" alt="TNi — Engineered Manufacturing Solutions"><span class="brand-caption">Project Management<span>Academy</span></span></a>
-  <div class="top-actions"><span class="course-label">SELF-PACED LEARNING</span><button id="learner-button" class="learner-button">Choose learner</button><button id="menu-button" class="menu-button" aria-expanded="false" aria-controls="sidebar">Menu</button></div>
+  <div class="top-actions"><label for="theme-select" class="sr-only">Theme</label><select id="theme-select" class="theme-select" aria-label="Appearance theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select><span class="course-label">SELF-PACED LEARNING</span><button id="learner-button" class="learner-button">Choose learner</button><button id="menu-button" class="menu-button" aria-expanded="false" aria-controls="sidebar">Menu</button></div>
  </header>
+ <script type="module" src="./theme.mjs?v=20261105-01"></script>
  <div class="layout">
   <aside id="sidebar" class="sidebar" aria-label="Course navigation"></aside>
   <main id="main" tabindex="-1"></main>
