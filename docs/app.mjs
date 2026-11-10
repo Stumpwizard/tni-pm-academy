@@ -1,4 +1,4 @@
-import {modules,finalQuestions,glossary,COURSE_VERSION,FINAL_QUESTION_COUNT} from './course.mjs?v=20261110-03';
+import {modules,finalQuestions,glossary,COURSE_VERSION,FINAL_QUESTION_COUNT} from './course.mjs?v=20261110-04';
 import {PASS_MARK,IDLE_MS,STORE_KEY,UNIT_IDS,newProfile,questionSet,questionCount,assessmentQuestions,attemptsFor,isCurrentAttempt,bestScore,attemptStatus,passed,completedCount,courseComplete,courseCompletionDate,totalSeconds,retakeCount,makeDraft,finishAttempt,activeDelta,hours,duration,escapeHtml as e,validateProfile,toCsv,summaryRows,attemptRows} from './core.mjs?v=20261105-06';
 
 const $=s=>document.querySelector(s);
